@@ -13,23 +13,27 @@ def end?(line : String) : Bool
   line.matches?(END_REGEX)
 end
 
-def add_to_code_blocks(code_block : String, line : String) : String
-  code_block += line + "\n"
+def add_to_code(code, line : String) : String
+  code += line + "\n"
 end
 
-def parse_blocks(content : String) : String
-  code = false
-  code_block = ""
+def parse_blocks(content : String) : {Int32, String}
+  block = false
+  block_count = 0
+  code = ""
 
   content.each_line.each do |line|
-    code = false if end?(line.lstrip)
+    block = false if end?(line.lstrip)
 
-    code_block = add_to_code_blocks(code_block, line) if code
+    code = add_to_code(code, line) if block
 
-    code = true if beginning?(line.lstrip)
+    if beginning?(line.lstrip)
+      block = true
+      block_count += 1
+    end
   end
 
-  code_block
+  {block_count, code}
 end
 
 # ---
@@ -52,7 +56,7 @@ def get_target(line : String) : String
   if n = line.match(TARGET_REGEX)
     n[0].gsub(TANGLE_REGEX, "")
   else
-    STDERR.puts "ERROR: Target file could not be parsed from frontmatter.\n"
+    STDERR.puts "ERROR: Target file could not be parsed from frontmatter."
     ""
   end
 end

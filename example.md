@@ -1,5 +1,5 @@
 ---
-tangle: example.js
+tangle: example.txt
 ---
 
 # Title

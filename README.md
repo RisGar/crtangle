@@ -1,6 +1,6 @@
 # crtangle
 
-TODO: Write a description here
+Markdown tangler based on [joakimmj/md-tangle](https://github.com/joakimmj/md-tangle/tree/main). Works similarly to org-babel-tangle in that target files are defined in the metadata of the original file.
 
 ## Installation
 
