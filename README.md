@@ -10,7 +10,7 @@ Execute the `install.sh` script to build to `build/crtangle`.
 
 ## Usage
 
-````md
+````markdown
 ---
 tangle: example.txt
 ---
