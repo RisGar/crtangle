@@ -10,6 +10,20 @@ Execute the `install.sh` script to build to `build/crtangle`.
 
 ## Usage
 
+````md
+---
+tangle: example.txt
+---
+
+# Title
+
+```txt
+Code goes here.
+```
+````
+
+Please note that a language has to be provided in the code block, e.g. `txt`.
+
 ```console
 $ crtangle --help
 crtangle [file] [--help] [--version]
