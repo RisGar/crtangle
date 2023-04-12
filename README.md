@@ -31,12 +31,11 @@ crtangle [file] [--help] [--version]
 Arguments:
     -v, --version                    Show version
     -h, --help                       Show help
-
 ```
 
 ## Contributing
 
-1. Fork it (<https://github.com/your-github-user/crtangle/fork>)
+1. Fork it (<https://github.com/RisGar/crtangle/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
@@ -44,4 +43,4 @@ Arguments:
 
 ## Contributors
 
-- [Rishab Garg](https://github.com/your-github-user) - creator and maintainer
+- [Rishab Garg](https://github.com/RisGar) - creator and maintainer
