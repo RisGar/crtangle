@@ -1,0 +1,13 @@
+name: crtangle
+version: 0.1.0
+
+authors:
+  - Rishab Garg <rishgarg@gmail.com>
+
+targets:
+  crtangle:
+    main: src/crtangle.cr
+
+crystal: 1.7.3
+
+license: MIT
