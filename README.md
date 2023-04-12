@@ -4,15 +4,21 @@ Markdown tangler based on [joakimmj/md-tangle](https://github.com/joakimmj/md-ta
 
 ## Installation
 
-TODO: Write installation instructions here
+### \*NIX
+
+Execute the `install.sh` script to build to `build/crtangle`.
 
 ## Usage
 
-TODO: Write usage instructions here
+```console
+$ crtangle --help
+crtangle [file] [--help] [--version]
 
-## Development
+Arguments:
+    -v, --version                    Show version
+    -h, --help                       Show help
 
-TODO: Write development instructions here
+```
 
 ## Contributing
 
