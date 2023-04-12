@@ -35,6 +35,7 @@ module Crtangle
 
   content = File.read(file)
   blocks = parse_blocks(content)
+  target = parse_frontmatter(content)
 
-  puts(blocks)
+  puts(target)
 end
