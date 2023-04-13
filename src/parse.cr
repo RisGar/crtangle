@@ -12,14 +12,18 @@ def parse_blocks(content : String) : {Int32, String}
   content.each_line.each do |line|
     if line.lstrip.matches?(BLOCK_REGEX)
       block = !block
-      block_count += 1 if block == true
+      if block == true
+        block_count += 1
+      else
+        code += "\n"
+      end
       next
     end
 
     code += (line + "\n") if block
   end
 
-  {block_count, code}
+  {block_count, code.sub(-1, "")}
 end
 
 # ---
@@ -32,7 +36,7 @@ TARGET_REGEX    = /tangle:\s+([^\s]+)/
 
 def get_target(line : String) : String
   if n = line.match(TARGET_REGEX)
-    n[0].gsub(TANGLE_REGEX, "")
+    n[0].sub(TANGLE_REGEX, "")
   else
     STDERR.puts "ERROR: Target file could not be parsed from frontmatter."
     ""
