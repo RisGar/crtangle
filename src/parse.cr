@@ -1,21 +1,8 @@
-BEGINNING_REGEX = /^(~{3,}|`{3,})([a-z]+)/
-END_REGEX       = /^(~{3,}|`{3,})(s*)$/
-
 # ---
 # Code Blocks
 # ---
 
-def beginning?(line : String) : Bool
-  line.matches?(BEGINNING_REGEX)
-end
-
-def end?(line : String) : Bool
-  line.matches?(END_REGEX)
-end
-
-def add_to_code(code, line : String) : String
-  code += line + "\n"
-end
+BLOCK_REGEX = /^(~{3,}|`{3,})/
 
 def parse_blocks(content : String) : {Int32, String}
   block = false
@@ -23,14 +10,13 @@ def parse_blocks(content : String) : {Int32, String}
   code = ""
 
   content.each_line.each do |line|
-    block = false if end?(line.lstrip)
-
-    code = add_to_code(code, line) if block
-
-    if beginning?(line.lstrip)
-      block = true
-      block_count += 1
+    if line.lstrip.matches?(BLOCK_REGEX)
+      block = !block
+      block_count += 1 if block == true
+      next
     end
+
+    code += (line + "\n") if block
   end
 
   {block_count, code}
@@ -43,14 +29,6 @@ end
 DELIMITER_REGEX = /^(-{3})/
 TANGLE_REGEX    = /tangle:\s/
 TARGET_REGEX    = /tangle:\s+([^\s]+)/
-
-def delimiter?(line : String) : Bool
-  line.matches?(DELIMITER_REGEX)
-end
-
-def tangle?(line : String) : Bool
-  line.matches?(TANGLE_REGEX)
-end
 
 def get_target(line : String) : String
   if n = line.match(TARGET_REGEX)
@@ -66,13 +44,13 @@ def parse_frontmatter(content : String) : String
   target = ""
 
   content.each_line.each do |line|
-    if delimiter?(line)
+    if line.matches?(DELIMITER_REGEX)
       frontmatter = !frontmatter
       next
     end
 
     if frontmatter
-      target = get_target(line) if tangle?(line.lstrip)
+      target = get_target(line) if line.matches?(TANGLE_REGEX)
     end
   end
 
