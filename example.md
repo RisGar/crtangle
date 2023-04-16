@@ -7,3 +7,11 @@ tangle: example.test.txt
 ```text
 Hello, world!
 ```
+
+```javascript
+const hello = "world"
+```
+
+```cpp
+string Hello = "World";
+```

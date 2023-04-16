@@ -31,6 +31,28 @@ Code goes here.
 ```
 ````
 
+Should the command work outside of the file's directory, a full path to the target file should be provided, so the file is not created in the current dir.
+
+````markdown
+---
+tangle: /Users/rishab/Documents/example.txt
+---
+
+# Example
+
+```text
+Hello, world!
+```
+
+```javascript
+const hello = "world"
+```
+
+```cpp
+string Hello = "World";
+```
+````
+
 ## Contributing
 
 1. Fork it (<https://github.com/RisGar/crtangle/fork>)
