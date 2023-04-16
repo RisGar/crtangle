@@ -3,10 +3,13 @@ require "./parse"
 
 VERSION = "0.1.0"
 
-def handle_file(file : String) : Nil
+def handle_file(file : String, target : String | Nil) : Nil
   content = File.read(file)
   blocks, code = parse_blocks(content)
-  target = parse_frontmatter(content)
+
+  if target.nil?
+    target = parse_frontmatter(content)
+  end
 
   File.write(target, code)
 
@@ -14,8 +17,10 @@ def handle_file(file : String) : Nil
 end
 
 module Crtangle
+  target = nil
+
   option_parser = OptionParser.parse do |parser|
-    parser.banner = "crtangle [file] [--help] [--version]\n"
+    parser.banner = "crtangle [file] [--help] [--version] [--override target]\n"
     parser.separator("Arguments:")
 
     # ---
@@ -32,9 +37,13 @@ module Crtangle
       exit
     end
 
+    parser.on "-o FILE", "--override FILE", "Override target file" do |file|
+      target = file
+    end
+
     parser.unknown_args do |args|
       if args.size >= 1
-        handle_file(args[0])
+        handle_file(args[0], target)
         exit()
       else
         STDERR.puts "ERROR: Please provide a file.\n\n"
