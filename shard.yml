@@ -8,6 +8,6 @@ targets:
   crtangle:
     main: src/crtangle.cr
 
-crystal: 1.7.3
+crystal: 1.8.0
 
 license: EUPL-1.2

@@ -1,14 +1,23 @@
 # crtangle
 
-Markdown tangler based on [joakimmj/md-tangle](https://github.com/joakimmj/md-tangle/tree/main). Works similarly to org-babel-tangle in that target files are defined in the metadata of the original file.
+CLI tool aimed to replace `org-babel-tangle` for org-mode in Emacs, without editor lock-in and using markdown instead of org.
 
 ## Installation
 
-### \*NIX
-
-Execute the `install.sh` script to build to `build/crtangle`.
+This tool can be installed through GNU Make by running `make` in the working directory.
 
 ## Usage
+
+```console
+$ ./build/crtangle --help
+crtangle [file] [--help] [--version]
+
+Arguments:
+    -v, --version                    Show version
+    -h, --help                       Show help
+```
+
+Use YAML frontmatter to specify the target file. Each code block will be tangled to the specified file.
 
 ````markdown
 ---
@@ -22,17 +31,6 @@ Code goes here.
 ```
 ````
 
-Please note that a language has to be provided in the code block, e.g. `txt`.
-
-```console
-$ crtangle --help
-crtangle [file] [--help] [--version]
-
-Arguments:
-    -v, --version                    Show version
-    -h, --help                       Show help
-```
-
 ## Contributing
 
 1. Fork it (<https://github.com/RisGar/crtangle/fork>)
@@ -44,3 +42,4 @@ Arguments:
 ## Contributors
 
 - [Rishab Garg](https://github.com/RisGar) - creator and maintainer
+- [Joakim Myrvoll](https://github.com/joakimmj) - idea ([joakimmj/md-tangle](https://github.com/joakimmj/md-tangle))
