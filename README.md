@@ -9,7 +9,7 @@ This tool can be installed through GNU Make by running `make` in the working dir
 ## Usage
 
 ```console
-$ ./build/crtangle --help
+$ ./bin/crtangle --help
 crtangle [file] [--help] [--version]
 
 Arguments:

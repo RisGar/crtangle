@@ -1,15 +1,17 @@
-BUILD_DIR := ./build
+BUILD_DIR := ./bin
+SRC_DIR := ./src
+
+SRCS := $(shell find $(SRC_DIR) -name '*.cr')
 
 # (Un)installation
 install: $(BUILD_DIR)/crtangle
 
-build/crtangle: src/crtangle.cr 
+$(BUILD_DIR)/crtangle: $(SRCS)
 	mkdir -p $(BUILD_DIR)
-	crystal build src/crtangle.cr --no-debug --release -o $(BUILD_DIR)/crtangle
+	crystal build $(SRC_DIR)/crtangle.cr --no-debug --release --progress -o $(BUILD_DIR)/crtangle
 
 uninstall:
 	rm -rf $(BUILD_DIR)
-
 
 # Testing
 test: $(BUILD_DIR)/crtangle example.md
@@ -17,3 +19,7 @@ test: $(BUILD_DIR)/crtangle example.md
 
 clean:
 	rm -f *.test.txt
+
+# Docs
+docs: $(SRCS)
+	crystal docs --progress

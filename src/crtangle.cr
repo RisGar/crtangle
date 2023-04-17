@@ -1,31 +1,15 @@
 require "option_parser"
 require "./parse"
+require "./handle"
 
-VERSION = "0.1.0"
-
-def handle_file(file : String, target : String | Nil) : Nil
-  content = File.read(file)
-  blocks, code = parse_blocks(content)
-
-  if target.nil?
-    target = parse_frontmatter(content)
-  end
-
-  File.write(target, code)
-
-  puts "#{file} has been tangled to #{target} (#{blocks} blocks)."
-end
-
+# Main module with a CLI parser, a file handler and a file parser.
 module Crtangle
+  VERSION = "0.1.0"
   target = nil
 
   option_parser = OptionParser.parse do |parser|
     parser.banner = "crtangle [file] [--help] [--version] [--override target]\n"
     parser.separator("Arguments:")
-
-    # ---
-    # Args
-    # ---
 
     parser.on "-v", "--version", "Show version" do
       puts VERSION
@@ -43,7 +27,7 @@ module Crtangle
 
     parser.unknown_args do |args|
       if args.size >= 1
-        handle_file(args[0], target)
+        Handler.new(args[0], target)
         exit()
       else
         STDERR.puts "ERROR: Please provide a file.\n\n"
@@ -51,10 +35,6 @@ module Crtangle
         exit(1)
       end
     end
-
-    # ---
-    # Error handling
-    # --
 
     parser.missing_option do |option_flag|
       STDERR.puts "ERROR: #{option_flag} is missing something.\n\n"

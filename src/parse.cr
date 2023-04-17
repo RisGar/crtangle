@@ -1,62 +1,55 @@
-# ---
-# Code Blocks
-# ---
+module Crtangle
+  class Parser
+    @block_regex = /^(~{3,}|`{3,})/
+    @delim_regex = /^(-{3})/
+    @tangle_regex = /tangle:\s/
+    @target_regex = /tangle:\s+([^\s]+)/
 
-BLOCK_REGEX = /^(~{3,}|`{3,})/
+    getter block_count : Int32
 
-def parse_blocks(content : String) : {Int32, String}
-  block = false
-  block_count = 0
-  code = ""
+    def code : String
+      @code.sub(-1, "")
+    end
 
-  content.each_line.each do |line|
-    if line.lstrip.matches?(BLOCK_REGEX)
-      block = !block
-      if block == true
-        block_count += 1
-      else
-        code += "\n"
+    def initialize(@content : String)
+      @block_count = 0
+      @code = ""
+    end
+
+    def blocks : Nil
+      block = false
+
+      @content.each_line.each do |line|
+        if line.lstrip.matches?(@block_regex)
+          block = !block
+          if block
+            @block_count += 1
+          else
+            @code += "\n"
+          end
+          next
+        end
+
+        @code += (line + "\n") if block
       end
-      next
     end
 
-    code += (line + "\n") if block
-  end
+    def frontmatter : String
+      frontmatter = false
 
-  {block_count, code.sub(-1, "")}
-end
+      @content.each_line.each do |line|
+        if line.matches?(@delim_regex)
+          frontmatter = !frontmatter
+          next
+        end
 
-# ---
-# Frontmatter
-# ---
-
-DELIMITER_REGEX = /^(-{3})/
-TANGLE_REGEX    = /tangle:\s/
-TARGET_REGEX    = /tangle:\s+([^\s]+)/
-
-def get_target(line : String) : String
-  if n = line.match(TARGET_REGEX)
-    n[0].sub(TANGLE_REGEX, "")
-  else
-    STDERR.puts "ERROR: Target file could not be parsed from frontmatter."
-    ""
-  end
-end
-
-def parse_frontmatter(content : String) : String
-  frontmatter = false
-  target = ""
-
-  content.each_line.each do |line|
-    if line.matches?(DELIMITER_REGEX)
-      frontmatter = !frontmatter
-      next
-    end
-
-    if frontmatter
-      target = get_target(line) if line.matches?(TANGLE_REGEX)
+        if frontmatter
+          if n = line.match(@target_regex)
+            return n[0].sub(@tangle_regex, "")
+          end
+        end
+      end
+      ""
     end
   end
-
-  target
 end
